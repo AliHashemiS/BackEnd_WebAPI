@@ -11,6 +11,10 @@ export class CategoryService {
     }
 
     async findAll(){
-      return this.categoryModel.findAll();
+      return await this.categoryModel.findAll();
+    }
+
+    async createCategory(data:Category){
+      return await this.categoryModel.create(data,{returning:true});
     }
 }
