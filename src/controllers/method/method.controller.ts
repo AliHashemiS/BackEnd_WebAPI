@@ -1,14 +1,20 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { MethodService } from '../../services/method/method.service';
 
 @Controller('method')
 export class MethodController {
 
-    constructor(private userService:MethodService){ }
+  constructor(private methodService:MethodService){ }
 
-    @Get()
-    public async test(){
-        const user = await this.userService.test();
-        return user
-    }
+  @Post()
+  public async createMethod(@Body() body){
+    return await this.methodService.createMethod(body);
+  }
+
+  @Get()
+  public getMethods(){
+    return "hola"
+  }
+
+
 }
