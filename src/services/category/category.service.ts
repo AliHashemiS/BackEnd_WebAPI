@@ -4,17 +4,13 @@ import { Category } from '../../models';
 
 @Injectable()
 export class CategoryService {
-    private userModel:Repository<Category>;
+    private categoryModel:Repository<Category>;
 
     constructor(private sequelize: Sequelize){
-        this.userModel = this.sequelize.getRepository(Category)
+        this.categoryModel = this.sequelize.getRepository(Category)
     }
 
-    async test(){
-        const newCategory = await this.userModel.create<Category>({
-            name:"Mathematics"
-        });
-
-        return newCategory;
+    async findAll(){
+      return this.categoryModel.findAll();
     }
 }
