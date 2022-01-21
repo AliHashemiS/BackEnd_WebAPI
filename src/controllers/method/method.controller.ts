@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { MethodService } from '../../services/method/method.service';
 
 @Controller('method')
@@ -12,8 +12,8 @@ export class MethodController {
   }
 
   @Get()
-  public getMethods(){
-    return "hola"
+  public async getMethods(@Query() query){
+    return await this.methodService.findAll(query);
   }
 
 
