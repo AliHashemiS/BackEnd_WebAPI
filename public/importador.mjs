@@ -1,6 +1,4 @@
-
-
-export class Importador {
+class Importador {
 
   constructor(functions) {
     functions = Object.keys(functions).map(key => {
@@ -26,3 +24,6 @@ export class Importador {
   }
 
 }
+
+
+window.Importador = Importador;
