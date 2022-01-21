@@ -15,7 +15,6 @@ export class MethodService {
 
   async createMethod(method: Method) {
     const methodCreated = await this.userModel.create(method, { returning: true });
-    console.log(methodCreated);
     return methodCreated;
   }
 
@@ -30,5 +29,10 @@ export class MethodService {
       },
       include: [User, Category]
     });
+  }
+
+  async findOne(id){
+    const method = await this.userModel.findOne({where:{id:id},attributes:["code"]});
+    return method.code;
   }
 }
