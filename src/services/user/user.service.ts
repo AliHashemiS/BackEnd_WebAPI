@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Repository, Sequelize } from 'sequelize-typescript';
 import { User } from '../../models';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
 @Injectable()
 export class UserService {
@@ -10,13 +11,16 @@ export class UserService {
     this.userModel = this.sequelize.getRepository(User)
   }
 
-  async test(){
-    const newUser = await this.userModel.create<User>({
-      email:"correo@prueba.com",
-      password:"prueba"
-    });
+  async createUser(user:User){ 
+    return { obj:await this.userModel.create(user,{returning:true}) };
+  } 
 
-    return newUser;
+  async findUser(data){
+    return { obj:await this.userModel.findOne({
+      where : {
+        email: data.user_email, 
+        password: data.user_password
+      }
+    }) };
   }
-
 }
