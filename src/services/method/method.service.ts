@@ -51,4 +51,9 @@ export class MethodService {
             ]
         }) };
     }
+
+    async findOne(id){
+        const method = await this.methodModel.findOne({where:{id:id},attributes:["code"]});
+        return method.code;
+    }
 }

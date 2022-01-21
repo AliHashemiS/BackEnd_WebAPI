@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { MethodService } from '../../services/method/method.service';
 
 @Controller('method')
@@ -19,6 +19,11 @@ export class MethodController {
     @Get('findWithFilter')
     public async getMethodUserName(@Query() query){
         return await this.methodService.findWithFilter(query);
+    }
+
+    @Get(':id')
+    public async getMethod(@Param() params){
+        return await this.methodService.findOne(params.id);
     }
 
 }
