@@ -5,30 +5,50 @@ import { Category, Method, User } from '../../models';
 
 @Injectable()
 export class MethodService {
-  private userModel: Repository<Method>;
-  private user: Repository<User>;
+    private methodModel:Repository<Method>;
 
-  constructor(private sequelize: Sequelize) {
-    this.userModel = this.sequelize.getRepository(Method);
-    this.user = this.sequelize.getRepository(User);
-  }
+    constructor(private sequelize: Sequelize){
+        this.methodModel = this.sequelize.getRepository(Method)
+    }
 
-  async createMethod(method: Method) {
-    const methodCreated = await this.userModel.create(method, { returning: true });
-    console.log(methodCreated);
-    return methodCreated;
-  }
+    async createMethod(method: Method) {
+        return { obj:await this.methodModel.create(method, { returning: true }) };
+    }
 
-  async findAll(query) {
-    return await this.userModel.findAll({
-      where: {
-        [Op.or]: [
-          { '$user.email$': { [Op.iLike]: `%${query.filter || "" }%`} },
-          { '$category.name$': { [Op.iLike]: `%${query.filter || "" }%`} },
-          { name: { [Op.iLike]: `%${query.filter || "" }%`} },
-        ],
-      },
-      include: [User, Category]
-    });
-  }
+    async findAll(){
+        return { obj:await this.methodModel.findAll({
+            include: [
+                {
+                    model:User,
+                    attributes:['email']
+                },
+                {
+                    model:Category,
+                    attributes:['name']
+                }
+            ]
+        }) };
+    }
+
+    async findWithFilter(data) {
+        return { obj:await this.methodModel.findAll({
+            where: {
+            [Op.or]: [
+                { '$user.email$': { [Op.iLike]: `%${data.filter || "" }%`} },
+                { '$category.name$': { [Op.iLike]: `%${data.filter || "" }%`} },
+                { name: { [Op.iLike]: `%${data.filter || "" }%`} },
+            ],
+            },
+            include: [
+                {
+                    model:User,
+                    attributes:['email']
+                },
+                {
+                    model:Category,
+                    attributes:['name']
+                }
+            ]
+        }) };
+    }
 }
