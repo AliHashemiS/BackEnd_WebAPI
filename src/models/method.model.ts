@@ -1,4 +1,4 @@
-import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
+import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
 import { Category } from './category.model';
 import { User } from './user.model';
 
@@ -8,14 +8,6 @@ import { User } from './user.model';
   underscored:true
 })
 export class Method extends Model {
-
-  @ForeignKey(() => User)
-  @Column({allowNull:false})
-  id_user: number;
-
-  @ForeignKey(() => Category)
-  @Column({allowNull:false})
-  id_category: number;
   
   @Column({allowNull:false, type:DataType.STRING(250)})
   name: string;
@@ -26,4 +18,17 @@ export class Method extends Model {
   @Column({allowNull:false,type:DataType.STRING(1000)})
   code: string;
 
+  @ForeignKey(() => User)
+  @Column
+  id_user: number;
+
+  @BelongsTo(() => User)
+  user: User;
+
+  @ForeignKey(() => Category)
+  @Column
+  id_category: number;
+
+  @BelongsTo(() => Category)
+  category: User;
 }
