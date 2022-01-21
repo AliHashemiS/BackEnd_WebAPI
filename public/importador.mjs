@@ -2,21 +2,17 @@
 
 export class Importador {
 
-  functions = [];
-
   constructor(functions) {
-    
-    this.functions = Object.keys(functions).map(key => {
+    functions = Object.keys(functions).map(key => {
       return { name: key, id: functions[key] }
     });
-    return this.downloadFunctions();
+    return this.downloadFunctions(functions);
   }
 
-
-  downloadFunctions = async function () {
+  downloadFunctions = async function (functions) {
     let result = {};
-    for (let i = 0; i < this.functions.length; i++) {
-      const element = this.functions[i];
+    for (let i = 0; i < functions.length; i++) {
+      const element = functions[i];
       var request = new XMLHttpRequest();
       request.open('GET', `http://localhost:8081/method/${element.id}`, false);  // `false` makes the request synchronous
       request.send(null);
